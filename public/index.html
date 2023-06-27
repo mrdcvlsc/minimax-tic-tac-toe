@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MiniMax TicTacToe</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="module" src="tictactoe.js" defer></script>
+</head>
+<body>
+    <h1>Tic-Tac-Toe</h1>
+    <div>
+      <span>Grid Size</span>
+      <select class="side-length">
+        <option label="3" value="3">
+        <option label="4" value="4">
+        <option label="5" value="5">
+        <option label="6" value="6">
+      </select>
+    </div>
+    <div>
+      <span>Max Depth</span>
+      <input class="depth-value" type="number" value="8">
+    </div>
+    <div id="board" class="board"></div>
+    <button class="new-game">New Game</button>
+    <p class="message"></p>
+</body>
+</html>

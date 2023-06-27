@@ -1,0 +1,45 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  gap: 1.5em;
+}
+
+.board {
+  border: 1px solid black;
+  display: grid;
+  
+  grid-template-columns: repeat(4, 1fr);
+
+  justify-items: center;
+  align-items: center;
+
+  width: min(50vh, 50vw);
+  height: min(50vh, 50vw);
+}
+
+.cell {
+  width: 90%;
+  height: 90%;
+  background-color: lightgray;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  font-size: auto;
+  cursor: pointer;
+}
+
+h1 {
+  text-align: center;
+}

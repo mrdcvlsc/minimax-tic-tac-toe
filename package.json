@@ -1,0 +1,22 @@
+{
+  "name": "tic-tac-toe-minimax",
+  "version": "1.0.0",
+  "description": "A tic-tac-toe web application that has a computer player that uses the minimax algorithm to make moves.",
+  "main": "tests.js",
+  "scripts": {
+    "format": "npx prettier --write \"./**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
+  },
+  "keywords": [
+    "minimax",
+    "tic-tac-toe"
+  ],
+  "author": "mrdcvlsc",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.8.8"
+  },
+  "dependencies": {
+    "@fastify/static": "^6.10.2",
+    "fastify": "^4.18.0"
+  }
+}

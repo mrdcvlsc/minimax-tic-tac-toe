@@ -32,10 +32,7 @@ function makeMove(i, j, moveComputer = true) {
       if (!game.isFinish()) {
         const computerPlayer = game.currentPlayer;
         const depthValue = Number(document.querySelector('.depth-value').value);
-        console.log('computerPlayer = ', computerPlayer);
-        console.log('depthValue = ', depthValue);
         const computerMove = game.minimax(computerPlayer, depthValue);
-        console.log('computerMove = ', computerMove);
         document.getElementById('board').children[computerMove.idx_i * game.grid + computerMove.idx_j].innerText =
           PIECE[computerPlayer];
         game.makeMove(computerMove.idx_i, computerMove.idx_j);

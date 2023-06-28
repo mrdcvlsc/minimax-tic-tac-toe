@@ -23,6 +23,7 @@ class TicTacToe {
     this.winner = 0;
     this.board = new Uint8Array(gridLength * gridLength);
     this.currentPlayer = P1;
+    this.turns = gridLength * gridLength;
 
     this.makeMove = this.makeMove.bind(this);
     this.makeComputerMove = this.makeComputerMove.bind(this);
@@ -48,6 +49,7 @@ class TicTacToe {
       this.board[i * this.grid + j] = this.currentPlayer;
 
       this.currentPlayer = this.currentPlayer === P1 ? P2 : P1;
+      this.turns--;
       return MOVE_SUCCESS;
     }
 
@@ -75,10 +77,10 @@ class TicTacToe {
 
     const winning = this.checkWinner();
     if (winning === P1) {
-      bestMove.score = 1;
+      bestMove.score = 1 * this.turns;
       return bestMove;
     } else if (winning === P2) {
-      bestMove.score = -1;
+      bestMove.score = -1 * this.turns;
       return bestMove;
     } else if (moves.length === 0) {
       return bestMove;
@@ -92,6 +94,7 @@ class TicTacToe {
       // maximizing player
       bestMove.score = -Infinity;
       for (let i = 0; i < moves.length; ++i) {
+        this.turns--;
         this.board[moves[i].idx_i * this.grid + moves[i].idx_j] = P1;
         const evaluation = this.minimax(P2, depth - 1).score;
         if (evaluation > bestMove.score) {
@@ -99,12 +102,14 @@ class TicTacToe {
           bestMove.idx_i = moves[i].idx_i;
           bestMove.idx_j = moves[i].idx_j;
         }
+        this.turns++;
         this.board[moves[i].idx_i * this.grid + moves[i].idx_j] = NA;
       }
     } else {
       // minimizing player
       bestMove.score = Infinity;
       for (let i = 0; i < moves.length; ++i) {
+        this.turns--;
         this.board[moves[i].idx_i * this.grid + moves[i].idx_j] = P2;
         const evaluation = this.minimax(P1, depth - 1).score;
         if (evaluation < bestMove.score) {
@@ -113,6 +118,7 @@ class TicTacToe {
           bestMove.idx_j = moves[i].idx_j;
         }
         this.board[moves[i].idx_i * this.grid + moves[i].idx_j] = NA;
+        this.turns++;
       }
     }
 

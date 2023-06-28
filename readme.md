@@ -4,6 +4,8 @@
 
 A simple project showcasing my **naive implementation** of [**minimax**](https://en.wikipedia.org/wiki/Minimax#Pseudocode) algorithm for a **tic-tac-toe** web application game.
 
+- [SEE DEMO](https://minimax-tic-tac-toe-demo.vercel.app/)
+
 **Run locally**
 
 ```shell

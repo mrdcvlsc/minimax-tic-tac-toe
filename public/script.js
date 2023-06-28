@@ -26,6 +26,7 @@ const htmlMessage = document.querySelector('.message');
 
 function makeMove(i, j, moveComputer = true) {
   if (!game.isFinish()) {
+    htmlMessage.innerText = '';
     const currentPlayer = game.currentPlayer;
     const moveResult = game.makeMove(i, j);
 
@@ -99,6 +100,7 @@ htmlNewGameBtn.addEventListener('click', () => {
 });
 
 function setNewGame(gridSize) {
+  htmlMessage.innerText = '';
   game = new TicTacToe(gridSize);
   generateCells();
 }

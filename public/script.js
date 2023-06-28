@@ -1,5 +1,5 @@
-// =================== tic-tac-toe minimax =================== 
-import { TicTacToe } from "./TicTacToe.js";
+// =================== tic-tac-toe minimax ===================
+import { TicTacToe } from './TicTacToe.js';
 let game = new TicTacToe(3);
 
 const PIECE = [' ', 'X', 'O'];
@@ -8,7 +8,7 @@ const SUCCESS = 1;
 const INVALID = 0;
 
 function announceResult(flag) {
-  console.log(flag)
+  console.log(flag);
   if (game.winner === 0) {
     console.log(`The game has already ended in draw.`);
   } else {
@@ -35,7 +35,9 @@ function makeMove(i, j, moveComputer = true) {
         console.log('computerPlayer = ', computerPlayer);
         console.log('depthValue = ', depthValue);
         const computerMove = game.minimax(computerPlayer, depthValue);
-        document.getElementById('board').children[computerMove.idx_i * game.grid + computerMove.idx_j].innerText = PIECE[computerPlayer];
+        console.log('computerMove = ', computerMove);
+        document.getElementById('board').children[computerMove.idx_i * game.grid + computerMove.idx_j].innerText =
+          PIECE[computerPlayer];
         game.makeMove(computerMove.idx_i, computerMove.idx_j);
 
         if (game.isFinish()) {
@@ -62,11 +64,11 @@ htmlGridSize.addEventListener('change', () => {
 });
 
 // generate squares in the board
-function generateCells () {
+function generateCells() {
   htmlBoard.innerHTML = '';
   for (let i = 0; i < game.grid; ++i) {
     for (let j = 0; j < game.grid; ++j) {
-      const htmlDiv = document.createElement("div");
+      const htmlDiv = document.createElement('div');
       htmlDiv.addEventListener('click', () => makeMove(i, j));
       htmlDiv.className = 'cell';
       htmlBoard.appendChild(htmlDiv);

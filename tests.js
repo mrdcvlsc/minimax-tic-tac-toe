@@ -1,137 +1,90 @@
-const tictactoe = require('./tictactoe');
+const { TicTacToe, NA, P1, P2 } = require('./public/TicTacToe');
 
-function testMoveGenerationMethod() {
-  const correctMoves = [
-    [
-      { idx_i: 0, idx_j: 0 },
-      { idx_i: 0, idx_j: 1 },
-      { idx_i: 0, idx_j: 2 },
-      { idx_i: 1, idx_j: 0 },
-      { idx_i: 1, idx_j: 1 },
-      { idx_i: 1, idx_j: 2 },
-      { idx_i: 2, idx_j: 0 },
-      { idx_i: 2, idx_j: 1 },
-      { idx_i: 2, idx_j: 2 },
-    ],
-  
-    [
-      { idx_i: 0, idx_j: 0 },
-      { idx_i: 0, idx_j: 1 },
-      { idx_i: 0, idx_j: 2 },
-      { idx_i: 1, idx_j: 0 },
-      { idx_i: 1, idx_j: 2 },
-      { idx_i: 2, idx_j: 0 },
-      { idx_i: 2, idx_j: 1 },
-      { idx_i: 2, idx_j: 2 },
-    ],
-  
-    [
-      { idx_i: 0, idx_j: 1 },
-      { idx_i: 0, idx_j: 2 },
-      { idx_i: 1, idx_j: 0 },
-      { idx_i: 1, idx_j: 1 },
-      { idx_i: 1, idx_j: 2 },
-      { idx_i: 2, idx_j: 0 },
-      { idx_i: 2, idx_j: 1 },
-      { idx_i: 2, idx_j: 2 },
-    ],
-  
-    [
-      { idx_i: 0, idx_j: 0 },
-      { idx_i: 0, idx_j: 1 },
-      { idx_i: 2, idx_j: 1 },
-    ],
-  
-    [],
-  
-    [
-      { idx_i: 0, idx_j: 1 },
-      { idx_i: 1, idx_j: 1 },
-    ],
-  ];
-  
-  const boardStates = [
-    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-    [' ', ' ', ' ', ' ', 'X', ' ', ' ', ' ', ' '],
-    ['O', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-    [' ', ' ', 'X', 'O', 'X', 'X', 'O', ' ', 'O'],
-    ['O', 'X', 'X', 'X', 'O', 'O', 'O', 'X', 'X'],
-    ['X', ' ', 'X', 'O', ' ', 'O', 'X', 'O', 'X'],
-  ];
+const t = new TicTacToe(3);
+let failedTests = 0;
 
-  let failedTests = 0;
+const winners = [NA, P1, P1, P1, P1, P1, P1, P2, P2, P2, P2, P2, P2, P1, P1, P2, P2];
 
-  if (boardStates.length === correctMoves.length) {
-    for (let i = 0; i < boardStates.length; ++i) {
-      const generatedMoves = generateMoves(boardStates[i]);
-      if (generatedMoves.length === correctMoves[i].length) {
-        for (let j = 0; j < generatedMoves.length; ++j) {
-          if (generatedMoves[j].i === correctMoves[i][j].i && generatedMoves[j].j === correctMoves[i][j].j) {
-            console.log('Move generation test (', i, ',', j, ') : PASSED');
-          } else {
-            console.log('Move generation test (', i, ',', j, ') : FAILED');
-            failedTests++;
-          }
-        }
-      } else {
-        failedTests++;
-        console.log('Generated Moves Missmatch : FAILED | index : ', i);
-      }
-    }
-  } else {
-    console.log('Test Move Array Missmatch : FAILED');
-    failedTests++;
-  }
+const winBoardStates = [
+  [NA, NA, NA, NA, NA, NA, NA, NA, NA],
+  [P1, P1, P1, NA, NA, NA, NA, NA, NA],
+  [NA, NA, NA, P1, P1, P1, NA, NA, NA],
+  [NA, NA, NA, NA, NA, NA, P1, P1, P1],
+  [P1, NA, NA, P1, NA, NA, P1, NA, NA],
+  [NA, P1, NA, NA, P1, NA, NA, P1, NA],
+  [NA, NA, P1, NA, NA, P1, NA, NA, P1],
+  [P2, P2, P2, NA, NA, NA, NA, NA, NA],
+  [NA, NA, NA, P2, P2, P2, NA, NA, NA],
+  [NA, NA, NA, NA, NA, NA, P2, P2, P2],
+  [P2, NA, NA, P2, NA, NA, P2, NA, NA],
+  [NA, P2, NA, NA, P2, NA, NA, P2, NA],
+  [NA, NA, P2, NA, NA, P2, NA, NA, P2],
+  [P1, NA, NA, NA, P1, NA, NA, NA, P1],
+  [NA, NA, P1, NA, P1, NA, P1, NA, NA],
+  [P2, NA, NA, NA, P2, NA, NA, NA, P2],
+  [NA, NA, P2, NA, P2, NA, P2, NA, NA],
+];
 
-  let totalTests = 0;
-  for (let i = 0; i < correctMoves.length; ++i) {
-    totalTests += correctMoves[i].length;
-  }
+failedTests += t.testCheckWinner(winBoardStates, winners);
 
-  return { failures: failedTests, tests: totalTests };
-}
+const correctMoves = [
+  [
+    { idx_i: 0, idx_j: 0 },
+    { idx_i: 0, idx_j: 1 },
+    { idx_i: 0, idx_j: 2 },
+    { idx_i: 1, idx_j: 0 },
+    { idx_i: 1, idx_j: 1 },
+    { idx_i: 1, idx_j: 2 },
+    { idx_i: 2, idx_j: 0 },
+    { idx_i: 2, idx_j: 1 },
+    { idx_i: 2, idx_j: 2 },
+  ],
 
+  [
+    { idx_i: 0, idx_j: 0 },
+    { idx_i: 0, idx_j: 1 },
+    { idx_i: 0, idx_j: 2 },
+    { idx_i: 1, idx_j: 0 },
+    { idx_i: 1, idx_j: 2 },
+    { idx_i: 2, idx_j: 0 },
+    { idx_i: 2, idx_j: 1 },
+    { idx_i: 2, idx_j: 2 },
+  ],
 
+  [
+    { idx_i: 0, idx_j: 1 },
+    { idx_i: 0, idx_j: 2 },
+    { idx_i: 1, idx_j: 0 },
+    { idx_i: 1, idx_j: 1 },
+    { idx_i: 1, idx_j: 2 },
+    { idx_i: 2, idx_j: 0 },
+    { idx_i: 2, idx_j: 1 },
+    { idx_i: 2, idx_j: 2 },
+  ],
 
+  [
+    { idx_i: 0, idx_j: 0 },
+    { idx_i: 0, idx_j: 1 },
+    { idx_i: 2, idx_j: 1 },
+  ],
 
-function testCheckWinnerMethod () {
-  const winners = [' ', 'X', 'X', 'X', 'X', 'X', 'X', 'O', 'O', 'O', 'O', 'O', 'O', 'X', 'X', 'O', 'O'];
-  const boardStates = [
-    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-    ['X', 'X', 'X', ' ', ' ', ' ', ' ', ' ', ' '],
-    [' ', ' ', ' ', 'X', 'X', 'X', ' ', ' ', ' '],
-    [' ', ' ', ' ', ' ', ' ', ' ', 'X', 'X', 'X'],
-    ['X', ' ', ' ', 'X', ' ', ' ', 'X', ' ', ' '],
-    [' ', 'X', ' ', ' ', 'X', ' ', ' ', 'X', ' '],
-    [' ', ' ', 'X', ' ', ' ', 'X', ' ', ' ', 'X'],
-    ['O', 'O', 'O', ' ', ' ', ' ', ' ', ' ', ' '],
-    [' ', ' ', ' ', 'O', 'O', 'O', ' ', ' ', ' '],
-    [' ', ' ', ' ', ' ', ' ', ' ', 'O', 'O', 'O'],
-    ['O', ' ', ' ', 'O', ' ', ' ', 'O', ' ', ' '],
-    [' ', 'O', ' ', ' ', 'O', ' ', ' ', 'O', ' '],
-    [' ', ' ', 'O', ' ', ' ', 'O', ' ', ' ', 'O'],
-    ['X', ' ', ' ', ' ', 'X', ' ', ' ', ' ', 'X'],
-    [' ', ' ', 'X', ' ', 'X', ' ', 'X', ' ', ' '],
-    ['O', ' ', ' ', ' ', 'O', ' ', ' ', ' ', 'O'],
-    [' ', ' ', 'O', ' ', 'O', ' ', 'O', ' ', ' '],
-  ];
+  [],
 
-  let failedTests = 0;
+  [
+    { idx_i: 0, idx_j: 1 },
+    { idx_i: 1, idx_j: 1 },
+  ],
+];
 
-  for (let i = 0; i < boardStates.length; ++i) {
-    if (checkWin(boardStates[i]) === winners[i]) {
-      console.log('test ', i + 1, ' : PASSED');
-    } else {
-      console.log('test ', i + 1, ' : FAILED');
-      failedTests++;
-    }
-  }
+const moveBoardStates = [
+  [NA, NA, NA, NA, NA, NA, NA, NA, NA],
+  [NA, NA, NA, NA, P1, NA, NA, NA, NA],
+  [P2, NA, NA, NA, NA, NA, NA, NA, NA],
+  [NA, NA, P1, P2, P1, P1, P2, NA, P2],
+  [P2, P1, P1, P1, P2, P2, P2, P1, P1],
+  [P1, NA, P1, P2, NA, P2, P1, P2, P1],
+];
 
-  return { failures: failedTests, tests: boardStates.length };
-}
+failedTests += t.testGenerateMoves(moveBoardStates, correctMoves);
 
-const moveGenerationFailures = testMoveGenerationMethod();
-const checkWinnerFailures = testCheckWinnerMethod();
-
-console.log('Move Generation Tests : ', moveGenerationFailures);
-console.log('Check Winner Tests    : ', checkWinnerFailures);
+process.exit(failedTests);

@@ -1,4 +1,4 @@
-const { TicTacToe, NA, P1, P2 } = require('./public/TicTacToe');
+import { TicTacToe, NA, P1, P2 } from './public/TicTacToe.js';
 
 const t = new TicTacToe(3);
 let failedTests = 0;

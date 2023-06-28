@@ -1,27 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MiniMax TicTacToe</title>
+  <title>MiniMax w/ TicTacToe</title>
+  
+  <meta name="theme-color" content="#3e76c9">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
+  
   <script type="module" src="script.js" defer></script>
 </head>
 <body>
-    <h1>Tic-Tac-Toe</h1>
-    <div>
-      <span>Grid Size</span>
-      <select class="grid-size">
+    <h2>MiniMax with TicTacToe</h2>
+    <div >
+      <span>Grid Size :
+        <select class="grid-size">
         <option label="3" value="3">
         <option label="4" value="4">
         <option label="5" value="5">
         <option label="6" value="6">
-      </select>
-    </div>
-    <div>
-      <span>Max Depth</span>
-      <input class="depth-value" type="number" value="8">
+        <option label="7" value="7">
+        <option label="8" value="8">
+        <option label="9" value="9">
+        <option label="10" value="10">
+      </select></span>
+      <span>Max Depth :
+        <input class="input-fields depth-value" type="number" value="8">
+      </span>
     </div>
     <div id="board" class="board"></div>
     <button class="new-game">New Game</button>
     <p class="message"></p>
+    <a class="ghlink" href="https://github.com/mrdcvlsc/minimax-tic-tac-toe">source code - licence MIT</a>
 </body>
 </html>

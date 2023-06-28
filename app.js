@@ -1,25 +1,34 @@
-const path = require('path');
-const fastify = require('fastify')({
-  logger: true,
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { showLocalNetworkIP } from './shownet.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const PORT = process.env.PORT || 8080;
+showLocalNetworkIP(PORT);
+
+import fastify from 'fastify';
+
+const app = fastify({
+  logger: false,
 });
 
-const fastifyStatic = require('@fastify/static');
+import fastifyStatic from '@fastify/static';
 
-fastify.register(fastifyStatic.default, {
+app.register(fastifyStatic.default, {
   root: path.join(__dirname, 'public'),
 });
 
-fastify.get('/register', (req, res) => {
+app.get('/register', (req, res) => {
   res.sendFile('index.html');
 });
 
-const PORT = process.env.PORT || 3000;
-
 const start = async () => {
   try {
-    await fastify.listen({ port: PORT, host: '::' });
+    await app.listen({ port: PORT, host: '::' });
   } catch (err) {
-    fastify.log.error(err);
+    app.log.error(err);
     process.exit(1);
   }
 };

@@ -314,5 +314,4 @@ class TicTacToe {
   }
 }
 
-export { TicTacToe };
-// module.exports = { TicTacToe, NA, P1, P2 };
+export { TicTacToe, NA, P1, P2 };

@@ -2,7 +2,7 @@
 import { TicTacToe } from './TicTacToe.js';
 let game = new TicTacToe(3);
 
-const PIECE = [' ', 'X', 'O'];
+const PIECE = [' ', '&#10005;', '&#9711;'];
 
 const SUCCESS = 1;
 const INVALID = 0;
@@ -10,11 +10,19 @@ const INVALID = 0;
 function announceResult(flag) {
   console.log(flag);
   if (game.winner === 0) {
-    console.log(`The game has already ended in draw.`);
+    htmlMessage.innerText = 'Game ended in a draw.';
+    htmlMessage.style.color = 'yellow';
+    htmlMessage.style.fontSize = '1.15em';
+    htmlMessage.style.fontWeight = 'bolder';
   } else {
-    console.log(`Player "${PIECE[game.winner]}" already won.`);
+    htmlMessage.innerHTML = `Player ${PIECE[game.winner]} won.`;
+    htmlMessage.style.color = 'lightgreen';
+    htmlMessage.style.fontSize = '1.15em';
+    htmlMessage.style.fontWeight = 'bolder';
   }
 }
+
+const htmlMessage = document.querySelector('.message');
 
 function makeMove(i, j, moveComputer = true) {
   if (!game.isFinish()) {
@@ -22,19 +30,24 @@ function makeMove(i, j, moveComputer = true) {
     const moveResult = game.makeMove(i, j);
 
     if (moveResult === INVALID) {
-      console.log('That is an invalid move');
+      htmlMessage.innerText = 'INVALID MOVE!';
+      htmlMessage.style.color = 'red';
+      htmlMessage.style.fontSize = '1.5em';
+      htmlMessage.style.fontWeight = 'bolder';
       return;
     }
 
-    document.getElementById('board').children[i * game.grid + j].innerText = PIECE[currentPlayer];
+    [...document.querySelectorAll('#board > .cell')][i * game.grid + j].innerHTML = PIECE[currentPlayer];
 
     if (moveComputer) {
       if (!game.isFinish()) {
         const computerPlayer = game.currentPlayer;
         const depthValue = Number(document.querySelector('.depth-value').value);
         const computerMove = game.minimax(computerPlayer, depthValue);
-        document.getElementById('board').children[computerMove.idx_i * game.grid + computerMove.idx_j].innerText =
-          PIECE[computerPlayer];
+        [...document.querySelectorAll('#board > .cell')][
+          computerMove.idx_i * game.grid + computerMove.idx_j
+        ].innerHTML = PIECE[computerPlayer];
+
         game.makeMove(computerMove.idx_i, computerMove.idx_j);
 
         if (game.isFinish()) {
@@ -65,10 +78,11 @@ function generateCells() {
   htmlBoard.innerHTML = '';
   for (let i = 0; i < game.grid; ++i) {
     for (let j = 0; j < game.grid; ++j) {
-      const htmlDiv = document.createElement('div');
-      htmlDiv.addEventListener('click', () => makeMove(i, j));
-      htmlDiv.className = 'cell';
-      htmlBoard.appendChild(htmlDiv);
+      const htmlSpan = document.createElement('span');
+      htmlSpan.addEventListener('click', () => makeMove(i, j));
+      htmlSpan.className = 'cell';
+      htmlSpan.innerHTML = '&#8203;';
+      htmlBoard.appendChild(htmlSpan);
     }
   }
 

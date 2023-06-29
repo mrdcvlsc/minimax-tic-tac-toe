@@ -3,28 +3,38 @@
   margin: 0px;
   box-sizing: border-box;
   font-family: 'Heebo', sans-serif, 'Courier New', Courier, monospace;
+}
 
-  /* outline: 1px solid red; */
+.header {
+  background-color: #1a1b1d;
+  padding: 0.5em;
 }
 
 body {
-  background-color: #3e76c9;
-  background-image: linear-gradient(90deg, #45a3da 0%, #80c7e7 100%);
+  background-color: #292d33;
+  /* background-image: linear-gradient(90deg, #45a3da 0%, #80c7e7 100%); */
 
-  padding: 1em;
+  height: 100vh;
+  width: 100vw;
+}
+
+.main {
+  background-color: #292d33;
+  /* background-image: linear-gradient(0deg, #0d1c24 0%, #bad0db 100%); */
+
+  padding: 0.75em;
   display: flex;
   align-items: center;
   justify-content: baseline;
   flex-direction: column;
-  height: 100vh;
+  height: 90%;
   gap: 1em;
 }
 
 .board {
-  background-color: #8bc6ec;
-  background-image: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%);
+  background-color: black;
 
-  outline: thick solid #3e7ea8bd;
+  outline: thick solid white;
   display: grid;
 
   border-radius: 4%;
@@ -40,16 +50,13 @@ body {
 }
 
 .cell {
-  background-color: #6291b1;
-  background-image: linear-gradient(135deg, #4b697e 0%, #4a4c79 100%);
+  background-color: rgb(71, 69, 69);
 
   width: 90%;
   height: 90%;
 
   border-radius: 10%;
   overflow: hidden;
-
-  background-color: rgb(245, 245, 245);
 
   display: flex;
   justify-content: center;
@@ -64,16 +71,12 @@ body {
   font-size: 2.5em;
 }
 
-.cell:hover {
-  background-color: rgb(141, 255, 141);
+.cell:active {
+  color: black;
+  background-color: gold;
 }
 
-h1,
 h2,
-h3,
-h4,
-h5,
-h6,
 span,
 p {
   text-align: center;
@@ -83,9 +86,9 @@ p {
 .new-game {
   border: none;
 
-  color: black;
-  outline: 0.2em solid black;
-  background-color: white;
+  color: white;
+  outline: 0.2em solid white;
+  background-color: black;
 
   font-weight: bolder;
   font-size: 0.9em;
@@ -96,13 +99,21 @@ p {
   padding-inline: 1.5em;
   transition: ease-in 0.1s;
   cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
 }
 
 .new-game:hover {
   transform: scale(1.02);
   color: white;
   outline: 0.2em solid black;
-  background-color: rgba(11, 42, 83, 0.932);
+  background-color: black;
+  font-weight: bolder;
+}
+
+.new-game:active {
+  color: black;
+  background-color: gold;
 }
 
 .input-fields {
@@ -115,15 +126,32 @@ p {
   right: 0.8em;
 }
 
+.message {
+  width: 60%;
+}
+
+a {
+  font-size: 0.85em;
+  color: white;
+}
+
 @media (max-width: 450px) {
   body {
     height: 85vh;
   }
 
-  .board {
-    outline: thick solid #3e7ea8bd;
+  .main {
+    height: 90%;
+  }
 
-    width: min(90vh, 90vw);
-    height: min(90vh, 90vw);
+  .board {
+    outline-width: thick;
+
+    width: min(80vh, 80vw);
+    height: min(80vh, 80vw);
+  }
+
+  .message {
+    width: 100%;
   }
 }

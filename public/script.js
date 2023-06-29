@@ -71,7 +71,24 @@ const htmlGridSize = document.querySelector('.grid-size');
 
 // grid size selector
 htmlGridSize.addEventListener('change', () => {
-  setNewGame(Number(htmlGridSize.value));
+  const newGridSize = Number(htmlGridSize.value);
+  if (newGridSize === 3) {
+    document.querySelector('.depth-value').value = 10;
+  } else if (newGridSize === 4) {
+    document.querySelector('.depth-value').value = 5;
+  } else if (newGridSize === 5) {
+    document.querySelector('.depth-value').value = 4;
+  } else if (newGridSize >= 6) {
+    document.querySelector('.depth-value').value = 3;
+  }
+
+  setNewGame(
+    newGridSize,
+    'The depth was changed for optimal calculation speed. ' +
+      'You can change the depth on your own, but keep in mind ' +
+      'a higher "depth and grid" values will cause the computer to take ' +
+      'more time to move.'
+  );
 });
 
 // generate squares in the board
@@ -99,8 +116,10 @@ htmlNewGameBtn.addEventListener('click', () => {
   setNewGame(game.grid);
 });
 
-function setNewGame(gridSize) {
-  htmlMessage.innerText = '';
+function setNewGame(gridSize, msg = '') {
+  htmlMessage.innerText = msg;
+  htmlMessage.style.fontSize = '0.9em';
+  htmlMessage.style.color = 'white';
   game = new TicTacToe(gridSize);
   generateCells();
 }

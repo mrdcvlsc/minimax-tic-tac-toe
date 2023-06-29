@@ -3,7 +3,7 @@
 <head>
   <title>MiniMax w/ TicTacToe</title>
   
-  <meta name="theme-color" content="#3e76c9">
+  <meta name="theme-color" content="#030303">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,10 @@
   <script type="module" src="script.js" defer></script>
 </head>
 <body>
+  <div class="header">
     <h2>MiniMax with TicTacToe</h2>
+  </div>
+  <div class="main">
     <div >
       <span>Grid Size :
         <select class="grid-size">
@@ -30,12 +33,13 @@
         <option label="10" value="10">
       </select></span>
       <span>Max Depth :
-        <input class="input-fields depth-value" type="number" value="8">
+        <input class="input-fields depth-value" type="number" value="10">
       </span>
     </div>
     <div id="board" class="board"></div>
     <button class="new-game">New Game</button>
     <p class="message"></p>
-    <a class="ghlink" href="https://github.com/mrdcvlsc/minimax-tic-tac-toe">source code - licence MIT</a>
+  </div>
+  <a class="ghlink" href="https://github.com/mrdcvlsc/minimax-tic-tac-toe">source code - licence MIT</a>
 </body>
 </html>

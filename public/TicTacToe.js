@@ -77,10 +77,10 @@ class TicTacToe {
 
     const winning = this.checkWinner();
     if (winning === P1) {
-      bestMove.score = 1 * this.turns;
+      bestMove.score = 1 * (this.turns <= 0 ? 1 : this.turns);
       return bestMove;
     } else if (winning === P2) {
-      bestMove.score = -1 * this.turns;
+      bestMove.score = -1 * (this.turns <= 0 ? 1 : this.turns);
       return bestMove;
     } else if (moves.length === 0) {
       return bestMove;

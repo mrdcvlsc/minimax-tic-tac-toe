@@ -1,6 +1,6 @@
 {
   "name": "tic-tac-toe-minimax",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A tic-tac-toe web application that has a computer player that uses the minimax algorithm to make moves.",
   "main": "tests.js",
   "scripts": {

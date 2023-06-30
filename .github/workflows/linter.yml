@@ -1,0 +1,49 @@
+name: linter
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: super-linter/super-linter@v4
+        env:
+          # https://github.com/super-linter/super-linter#environment-variables
+
+          IGNORE_GENERATED_FILES: true
+          IGNORE_GITIGNORED_FILES: true
+
+          # this decides whether Super Linter should lint the whole codebase
+          # or just the changes introduced with that commit.
+          VALIDATE_ALL_CODEBASE: false
+
+          # to add a specific language linter,the format is: VALIDATE_{LANGUAGE}_{LINTER}
+          # setting to true will run only the linter.
+          # setting to false will run all linters except it.
+          VALIDATE_JAVASCRIPT_ES: true
+
+          # VALIDATE_PYTHON_BLACK: true
+          # VALIDATE_HTML: true
+          
+          # where your linter config files should go like;
+          # .prettierrc.json, .clang-fromat, .eslintrc.yml, .htmlhintrc, etc.
+          # the value is default is .github/linters/
+          # LINTER_RULES_PATH: /
+
+          # you can also hard code a specific linter config path
+          # JAVASCRIPT_ES_CONFIG_FILE: configs/linters/.eslintrc.yml
+
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

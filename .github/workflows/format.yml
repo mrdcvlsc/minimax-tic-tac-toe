@@ -1,0 +1,57 @@
+name: format
+
+# depends of tests.yml
+on:
+  workflow_run:
+    workflows: [tests]
+    types: [completed]
+
+jobs:
+  format-code:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Email
+        run:  git config --local user.email auto.format@script.yml
+
+      - name: Configure Name
+        run:  git config --local user.name format.yml
+
+      - name: Git Status
+        run: git status
+
+      - name: Format Code Style
+        run: npm run format
+
+      - name: Stage Changes
+        continue-on-error: true
+        run: git add .
+
+      - name: Save Changes
+        continue-on-error: true
+        run: git commit -m "[Auto-format code on push]"
+
+      - name: Push Changes
+        continue-on-error: true
+        run: git push --force
+
+      - name: Done
+        run: echo done formatting files.
+
+  format-requirements-failed:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: rquirements failed
+        run: echo the tests failed
+      - name: force fail workflow
+        run: exit 1

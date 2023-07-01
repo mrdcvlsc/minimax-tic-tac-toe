@@ -115,9 +115,9 @@ htmlGridSelect.addEventListener('change', () => {
 
   setNewGame(
     'The depth was changed for optimal calculation speed. ' +
-    'You can change the depth on your own, but keep in mind ' +
-    'a higher "depth and grid" values will cause the computer to take ' +
-    'more time to move.'
+      'You can change the depth on your own, but keep in mind ' +
+      'a higher "depth and grid" values will cause the computer to take ' +
+      'more time to move.'
   );
 });
 
@@ -158,13 +158,14 @@ function setNewGame(msg = '') {
   game = new TicTacToe({
     gridLength: Number(htmlGridSelect.value),
     winCount: Number(htmlWinCountSelect.value),
-    player: Number(htmlPlayerSelect.value)
+    player: Number(htmlPlayerSelect.value),
   });
 
-  console.log('script.js' +
-    `gridLength = ${Number(htmlGridSelect.value)}\n` +
-    `winCount = ${Number(htmlWinCountSelect.value)}\n` +
-    `player = ${Number(htmlPlayerSelect.value)}`
+  console.log(
+    'script.js' +
+      `gridLength = ${Number(htmlGridSelect.value)}\n` +
+      `winCount = ${Number(htmlWinCountSelect.value)}\n` +
+      `player = ${Number(htmlPlayerSelect.value)}`
   );
 
   console.log('script.js: setNewGame = ', game.currentPlayer, game.player);

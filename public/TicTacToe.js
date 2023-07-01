@@ -11,19 +11,49 @@ const P1 = 1;
 /** Player 2 square value `O`. */
 const P2 = 2;
 const CELL_PIECE = ['', 'X', 'O'];
+
 const MOVE_SUCCESS = 1;
+
 const MOVE_INVALID = 0;
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
 /** A single thread tic-tac-toe game representation that can uses
  * `minimax` algorithm to search for the best possible move.
  */
 class TicTacToe {
-  constructor(gridLength, player = P1) {
-    this.grid = gridLength;
+  constructor(options = { gridLength, winCount, player }, cb = null) {
+
+    console.log('TicTacToe.js' +
+      `gridLength = ${Number(options?.gridLength)}\n` +
+      `winCount = ${Number(options?.winCount)}\n` +
+      `player = ${Number(options?.player)}`
+    );
+    
+    this.grid = options?.gridLength ? options.gridLength : 3;
+
+    let pieceWinCount = options?.winCount ? options.winCount : 3;
+
+    if (pieceWinCount > this.grid) {
+      pieceWinCount = this.grid;
+    }
+
+    this.pieceWinCount = pieceWinCount;
+    console.log('this.grid = ', this.grid);
+    console.log('this.pieceWinCount = ', this.pieceWinCount);
+
+    this.player = NA;
+    if (options?.player !== NA) {
+      this.player = options?.player ? (options.player === P1 || options.player === P2 ? options.player : P1) : P1;
+    }
+
     this.winner = 0;
-    this.board = new Uint8Array(gridLength * gridLength);
+
+    this.board = new Uint8Array(this.grid * this.grid);
     this.currentPlayer = P1;
-    this.turns = gridLength * gridLength;
+    this.turns = this.grid * this.grid;
 
     this.makeMove = this.makeMove.bind(this);
     this.makeComputerMove = this.makeComputerMove.bind(this);
@@ -34,6 +64,40 @@ class TicTacToe {
 
     this.display = this.display.bind(this);
     this.getBoardCharacterArray = this.getBoardCharacterArray.bind(this);
+    
+    if (this.player === P2) {
+      console.log('------------------')
+      const i = Math.round(getRandomArbitrary(0, this.grid - 1));
+      const j = Math.round(getRandomArbitrary(0, this.grid - 1));
+      console.log('player x is computer')
+      const moveres = this.makeMove(i, j);
+      console.log('made move = ', moveres);
+      console.log('i, j = ', i , j);
+      this.display();
+    } else if (this.player === NA) {
+      console.log('**** both computers ****')
+      const i = Math.round(getRandomArbitrary(0, this.grid - 1));
+      const j = Math.round(getRandomArbitrary(0, this.grid - 1));
+      const moveres = this.makeMove(i, j);
+
+      let compDepth = 10;
+      if (this.grid === 4) {
+        compDepth = 5;
+      } else if (this.grid === 5) {
+        compDepth = 4;
+      } else if (this.grid >= 6) {
+        compDepth = 3;
+      }
+
+      let cnt = 0;
+      while(!this.isFinish()) {
+        console.log('computer move :', cnt++);
+        this.makeComputerMove(compDepth);
+        if (typeof cb === 'function') {
+          cb();
+        }
+      }
+    }
   }
 
   /**
@@ -51,6 +115,11 @@ class TicTacToe {
       this.currentPlayer = this.currentPlayer === P1 ? P2 : P1;
       this.turns--;
       return MOVE_SUCCESS;
+    } else {
+      console.log('##### makeMove: failed #####');
+      console.log('i = ', i);
+      console.log('j = ', j);
+      console.log('this.board[i * this.grid + j] = ', this.board[i * this.grid + j]);
     }
 
     return MOVE_INVALID;
@@ -149,64 +218,73 @@ class TicTacToe {
    */
   checkWinner() {
     // check row -
+    console.lo
     for (let i = 0; i < this.grid; ++i) {
-      for (let j = 1; j < this.grid; ++j) {
+      let samePiece = 1;
+      for (let j = 0; j < this.grid - 1; ++j) {
         if (
-          this.board[i * this.grid + (j - 1)] === this.board[i * this.grid + j] &&
+          this.board[i * this.grid + j] === this.board[i * this.grid + j + 1] &&
           this.board[i * this.grid + j] !== NA
         ) {
-          if (j === this.grid - 1) {
+          samePiece++;
+          if (samePiece === this.pieceWinCount) {
             this.winner = this.board[i * this.grid + j];
             return this.board[i * this.grid + j];
           }
         } else {
-          break;
+          samePiece = 1;
         }
       }
     }
 
     // check columns |
     for (let j = 0; j < this.grid; ++j) {
-      for (let i = 1; i < this.grid; ++i) {
+      let samePiece = 1;
+      for (let i = 0; i < this.grid - 1; ++i) {
         if (
-          this.board[(i - 1) * this.grid + j] === this.board[i * this.grid + j] &&
+          this.board[i * this.grid + j] === this.board[(i + 1) * this.grid + j] &&
           this.board[i * this.grid + j] !== NA
         ) {
-          if (i === this.grid - 1) {
+          samePiece++;
+          if (samePiece === this.pieceWinCount) {
             this.winner = this.board[i * this.grid + j];
             return this.board[i * this.grid + j];
           }
         } else {
-          break;
+          samePiece = 1;
         }
       }
     }
 
     // check diag \
-    for (let i = 1; i < this.grid; ++i) {
+    let samePieceSecondLastDiag = 1;
+    for (let i = 0; i < this.grid - 1; ++i) {
       if (
-        this.board[(i - 1) * this.grid + (i - 1)] === this.board[i * this.grid + i] &&
+        this.board[i * this.grid + i] === this.board[(i + 1) * this.grid + (i + 1)] &&
         this.board[i * this.grid + i] !== NA
       ) {
-        if (i === this.grid - 1) {
+        samePieceSecondLastDiag++;
+        if (samePieceSecondLastDiag === this.pieceWinCount) {
           this.winner = this.board[i * this.grid + i];
           return this.board[i * this.grid + i];
         }
       } else {
-        break;
+        samePieceSecondLastDiag = 1;
       }
     }
 
     // check diag /
     const diagStep = this.grid - 1;
+    let samePieceLastDiag = 1;
     for (let i = 1; i < this.grid; ++i) {
-      if (this.board[(i + 1) * diagStep] === this.board[i * diagStep] && this.board[i * diagStep] !== NA) {
-        if (i === this.grid - 1) {
+      if (this.board[i * diagStep] === this.board[(i + 1) * diagStep] && this.board[i * diagStep] !== NA) {
+        samePieceLastDiag++;
+        if (samePieceLastDiag === this.pieceWinCount) {
           this.winner = this.board[i * diagStep];
           return this.board[i * diagStep];
         }
       } else {
-        break;
+        samePieceLastDiag = 1;
       }
     }
 

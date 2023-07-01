@@ -81,10 +81,11 @@ htmlPlayerSelect.addEventListener('change', () => {
     setNewGame('New game, you are playing as O');
 
     const moves = game.computerAutoPlay(
-      (typeof htmlDepthInput.value === 'number' || typeof htmlDepthInput.value === 'string') ?
-        Number(htmlDepthInput.value) : 1
+      typeof htmlDepthInput.value === 'number' || typeof htmlDepthInput.value === 'string'
+        ? Number(htmlDepthInput.value)
+        : 1
     );
-    
+
     for (let move of moves) {
       // works but instantanously, not as intended,
       // fix this later and make it look real time updates.
@@ -177,10 +178,11 @@ function setNewGame(msg = '') {
 
   if (htmlPlayerSelect.value === '0') {
     const moves = game.computerAutoPlay(
-      (typeof htmlDepthInput.value === 'number' || typeof htmlDepthInput.value === 'string') ?
-        Number(htmlDepthInput.value) : 1
+      typeof htmlDepthInput.value === 'number' || typeof htmlDepthInput.value === 'string'
+        ? Number(htmlDepthInput.value)
+        : 1
     );
-    
+
     for (let move of moves) {
       // works but instantanously, not as intended,
       // fix this later and make it look real time updates.

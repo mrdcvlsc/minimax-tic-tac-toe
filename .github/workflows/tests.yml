@@ -12,12 +12,13 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [14.x, 16.x, 18.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18.x, 20.x]
+        architecture: [x64, x86]
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Node:${{ matrix.node-version }}, OS:${{ matrix.os }}, arch:${{ matrix.architecture }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}

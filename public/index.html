@@ -20,26 +20,44 @@
     <h2>MiniMax with TicTacToe</h2>
   </div>
   <div class="main">
-    <div >
-      <span>Grid Size :
-        <select class="grid-size">
-        <option label="3" value="3">
-        <option label="4" value="4">
-        <option label="5" value="5">
-        <option label="6" value="6">
-        <option label="7" value="7">
-        <option label="8" value="8">
-        <option label="9" value="9">
-        <option label="10" value="10">
-      </select></span>
-      <span>Max Depth :
-        <input class="input-fields depth-value" type="number" value="10">
-      </span>
+    <div>
+      <div class="drop-selections">
+        <p>Grid :
+          <select class="grid-size">
+            <option label="3" value="3">
+            <option label="4" value="4">
+            <option label="5" value="5">
+            <option label="6" value="6">
+            <option label="7" value="7">
+            <option label="8" value="8">
+            <option label="9" value="9">
+            <option label="10" value="10">
+          </select>
+        </p>
+        <p>Piece win count :
+          <select class="win-piece-count">
+            <option label="3" value="3">
+            <option label="2" value="2">
+          </select>
+        </p>
+      </div>
+      <div class="drop-selections">
+        <p>Play as :
+          <select class="player-select">
+            <option label="X" value="1">
+            <option label="O" value="2">
+            <option label="Com" value="0">
+          </select>
+        </p>
+        <p>Max Depth :
+          <input class="input-fields depth-value" type="number" value="10">
+        </p>
+      </div>
     </div>
     <div id="board" class="board"></div>
     <button class="new-game">New Game</button>
     <p class="message"></p>
+    <a class="ghlink" href="https://github.com/mrdcvlsc/minimax-tic-tac-toe">source code - licence MIT</a>
   </div>
-  <a class="ghlink" href="https://github.com/mrdcvlsc/minimax-tic-tac-toe">source code - licence MIT</a>
 </body>
 </html>

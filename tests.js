@@ -94,5 +94,4 @@ if (failedTests > 0) {
   console.log('\nPASSED : ALL');
 }
 
-process.exit(1);
-// process.exit(failedTests);
+process.exit(failedTests);

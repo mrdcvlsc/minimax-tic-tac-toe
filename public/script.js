@@ -53,9 +53,7 @@ function makeMove(i, j, moveComputer = true) {
       if (!game.isFinish()) {
         const computerPlayer = game.currentPlayer;
         const computerMove = game.minimax(computerPlayer, htmlDepthInput.value);
-        htmlBoardCells[
-          computerMove.idx_i * game.grid + computerMove.idx_j
-        ].innerHTML = PIECE[computerPlayer];
+        htmlBoardCells[computerMove.idx_i * game.grid + computerMove.idx_j].innerHTML = PIECE[computerPlayer];
 
         game.makeMove(computerMove.idx_i, computerMove.idx_j);
 

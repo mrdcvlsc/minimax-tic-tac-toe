@@ -13,7 +13,6 @@ const P2 = 2;
 /** Character dictionary of the pieces of players. */
 const CELL_PIECE = ['', 'X', 'O'];
 
-
 const MOVE_SUCCESS = 1;
 const MOVE_INVALID = 0;
 
@@ -35,7 +34,7 @@ class TicTacToe {
     }
 
     this.pieceWinCount = pieceWinCount;
-    
+
     this.player = NA;
     if (options?.player !== NA) {
       this.player = options?.player ? (options.player === P1 || options.player === P2 ? options.player : P1) : P1;
@@ -97,13 +96,13 @@ class TicTacToe {
     return bestMove;
   }
 
-  * computerAutoPlay(depth) {
+  *computerAutoPlay(depth) {
     const i = randomInteger(0, this.grid - 1);
     const j = randomInteger(0, this.grid - 1);
-    const computerPiece = this.currentPlayer; 
+    const computerPiece = this.currentPlayer;
     this.makeMove(i, j);
 
-    yield {idx_i: i, idx_j: j, computerPiece: computerPiece};
+    yield { idx_i: i, idx_j: j, computerPiece: computerPiece };
 
     let cnt = 0;
     while (!this.isFinish()) {

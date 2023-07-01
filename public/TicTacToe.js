@@ -25,13 +25,13 @@ function getRandomArbitrary(min, max) {
  */
 class TicTacToe {
   constructor(options = { gridLength, winCount, player }, cb = null) {
-
-    console.log('TicTacToe.js' +
-      `gridLength = ${Number(options?.gridLength)}\n` +
-      `winCount = ${Number(options?.winCount)}\n` +
-      `player = ${Number(options?.player)}`
+    console.log(
+      'TicTacToe.js' +
+        `gridLength = ${Number(options?.gridLength)}\n` +
+        `winCount = ${Number(options?.winCount)}\n` +
+        `player = ${Number(options?.player)}`
     );
-    
+
     this.grid = options?.gridLength ? options.gridLength : 3;
 
     let pieceWinCount = options?.winCount ? options.winCount : 3;
@@ -64,18 +64,18 @@ class TicTacToe {
 
     this.display = this.display.bind(this);
     this.getBoardCharacterArray = this.getBoardCharacterArray.bind(this);
-    
+
     if (this.player === P2) {
-      console.log('------------------')
+      console.log('------------------');
       const i = Math.round(getRandomArbitrary(0, this.grid - 1));
       const j = Math.round(getRandomArbitrary(0, this.grid - 1));
-      console.log('player x is computer')
+      console.log('player x is computer');
       const moveres = this.makeMove(i, j);
       console.log('made move = ', moveres);
-      console.log('i, j = ', i , j);
+      console.log('i, j = ', i, j);
       this.display();
     } else if (this.player === NA) {
-      console.log('**** both computers ****')
+      console.log('**** both computers ****');
       const i = Math.round(getRandomArbitrary(0, this.grid - 1));
       const j = Math.round(getRandomArbitrary(0, this.grid - 1));
       const moveres = this.makeMove(i, j);
@@ -90,7 +90,7 @@ class TicTacToe {
       }
 
       let cnt = 0;
-      while(!this.isFinish()) {
+      while (!this.isFinish()) {
         console.log('computer move :', cnt++);
         this.makeComputerMove(compDepth);
         if (typeof cb === 'function') {
@@ -218,7 +218,7 @@ class TicTacToe {
    */
   checkWinner() {
     // check row -
-    console.lo
+    console.lo;
     for (let i = 0; i < this.grid; ++i) {
       let samePiece = 1;
       for (let j = 0; j < this.grid - 1; ++j) {

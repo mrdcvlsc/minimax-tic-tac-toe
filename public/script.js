@@ -7,6 +7,8 @@ const htmlWinCountSelect = document.querySelector('.win-piece-count');
 const htmlPlayerSelect = document.querySelector('.player-select');
 const htmlNewGameBtn = document.querySelector('.new-game');
 const htmlMessage = document.querySelector('.message');
+const htmlDepthInput = document.querySelector('.depth-value');
+let htmlBoardCells = [...document.querySelectorAll('#board > .cell')];
 
 // =================== tic-tac-toe minimax integration ===================
 import { TicTacToe } from './TicTacToe.js';
@@ -14,11 +16,10 @@ import { TicTacToe } from './TicTacToe.js';
 let game;
 setNewGame('Click a square');
 
-const SUCCESS = 1;
 const INVALID = 0;
 
-function announceResult(flag) {
-  console.log(flag);
+function announceResult(debugMessages) {
+  console.debug(debugMessages);
   if (game.winner === 0) {
     htmlMessage.innerText = 'Game ended in a draw.';
     htmlMessage.style.color = 'yellow';
@@ -46,14 +47,13 @@ function makeMove(i, j, moveComputer = true) {
       return;
     }
 
-    [...document.querySelectorAll('#board > .cell')][i * game.grid + j].innerHTML = PIECE[currentPlayer];
+    htmlBoardCells[i * game.grid + j].innerHTML = PIECE[currentPlayer];
 
     if (moveComputer) {
       if (!game.isFinish()) {
         const computerPlayer = game.currentPlayer;
-        const depthValue = Number(document.querySelector('.depth-value').value);
-        const computerMove = game.minimax(computerPlayer, depthValue);
-        [...document.querySelectorAll('#board > .cell')][
+        const computerMove = game.minimax(computerPlayer, htmlDepthInput.value);
+        htmlBoardCells[
           computerMove.idx_i * game.grid + computerMove.idx_j
         ].innerHTML = PIECE[computerPlayer];
 
@@ -75,12 +75,21 @@ function makeMove(i, j, moveComputer = true) {
 
 htmlPlayerSelect.addEventListener('change', () => {
   const selectedPlayer = Number(htmlPlayerSelect.value);
-  if (selectedPlayer === 0) {
+  if (selectedPlayer === 1) {
     setNewGame('New game, both computer playing');
-  } else if (selectedPlayer === 1) {
+  } else if (selectedPlayer === 2) {
     setNewGame('New game, you are playing as X');
   } else {
     setNewGame('New game, you are playing as O');
+
+    const moves = game.computerAutoPlay(Number(htmlDepthInput.value));
+    for (let move of moves) {
+      // works but instantanously, not as intended,
+      // fix this later and make it look real time updates.
+      htmlBoardCells[move.idx_i * game.grid + move.idx_j].innerHTML = PIECE[move.computerPiece];
+    }
+
+    announceResult();
   }
 });
 
@@ -96,13 +105,13 @@ htmlWinCountSelect.addEventListener('change', () => {
 htmlGridSelect.addEventListener('change', () => {
   const newGridSize = Number(htmlGridSelect.value);
   if (newGridSize === 3) {
-    document.querySelector('.depth-value').value = 10;
+    htmlDepthInput.value = 10;
   } else if (newGridSize === 4) {
-    document.querySelector('.depth-value').value = 5;
+    htmlDepthInput.value = 5;
   } else if (newGridSize === 5) {
-    document.querySelector('.depth-value').value = 4;
+    htmlDepthInput.value = 4;
   } else if (newGridSize >= 6) {
-    document.querySelector('.depth-value').value = 3;
+    htmlDepthInput.value = 3;
   }
 
   htmlWinCountSelect.innerHTML = '';
@@ -141,6 +150,8 @@ function generateCells() {
 
   htmlBoard.style.gridTemplateColumns = `repeat(${game.grid}, 1fr)`;
   htmlBoard.style.gridTemplateRows = `repeat(${game.grid}, 1fr)`;
+
+  htmlBoardCells = [...document.querySelectorAll('#board > .cell')];
 }
 
 generateCells();
@@ -150,7 +161,6 @@ htmlNewGameBtn.addEventListener('click', () => {
 });
 
 function setNewGame(msg = '') {
-  console.log('====== NEW GAME ======');
   htmlMessage.innerText = msg;
   htmlMessage.style.fontSize = '0.9em';
   htmlMessage.style.color = 'white';
@@ -161,14 +171,16 @@ function setNewGame(msg = '') {
     player: Number(htmlPlayerSelect.value),
   });
 
-  console.log(
-    'script.js' +
-      `gridLength = ${Number(htmlGridSelect.value)}\n` +
-      `winCount = ${Number(htmlWinCountSelect.value)}\n` +
-      `player = ${Number(htmlPlayerSelect.value)}`
-  );
-
-  console.log('script.js: setNewGame = ', game.currentPlayer, game.player);
-
   generateCells();
+
+  if (htmlPlayerSelect.value === '0') {
+    const moves = game.computerAutoPlay(Number(htmlDepthInput.value));
+    for (let move of moves) {
+      // works but instantanously, not as intended,
+      // fix this later and make it look real time updates.
+      htmlBoardCells[move.idx_i * game.grid + move.idx_j].innerHTML = PIECE[move.computerPiece];
+    }
+
+    announceResult();
+  }
 }

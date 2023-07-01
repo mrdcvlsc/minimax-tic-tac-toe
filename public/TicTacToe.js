@@ -3,35 +3,29 @@ console.log('TicTacToe.js: loaded.');
 
 /** Empty square value, Not Available ` `. */
 const NA = 0;
-const NOWINNER = 0;
 
 /** Player 1 square value `X`. */
 const P1 = 1;
 
 /** Player 2 square value `O`. */
 const P2 = 2;
+
+/** Character dictionary of the pieces of players. */
 const CELL_PIECE = ['', 'X', 'O'];
 
-const MOVE_SUCCESS = 1;
 
+const MOVE_SUCCESS = 1;
 const MOVE_INVALID = 0;
 
-function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min;
+function randomInteger(min, max) {
+  return Math.round(Math.random() * (max - min) + min);
 }
 
 /** A single thread tic-tac-toe game representation that can uses
  * `minimax` algorithm to search for the best possible move.
  */
 class TicTacToe {
-  constructor(options = { gridLength, winCount, player }, cb = null) {
-    console.log(
-      'TicTacToe.js' +
-        `gridLength = ${Number(options?.gridLength)}\n` +
-        `winCount = ${Number(options?.winCount)}\n` +
-        `player = ${Number(options?.player)}`
-    );
-
+  constructor(options = { gridLength, winCount, player }) {
     this.grid = options?.gridLength ? options.gridLength : 3;
 
     let pieceWinCount = options?.winCount ? options.winCount : 3;
@@ -41,9 +35,7 @@ class TicTacToe {
     }
 
     this.pieceWinCount = pieceWinCount;
-    console.log('this.grid = ', this.grid);
-    console.log('this.pieceWinCount = ', this.pieceWinCount);
-
+    
     this.player = NA;
     if (options?.player !== NA) {
       this.player = options?.player ? (options.player === P1 || options.player === P2 ? options.player : P1) : P1;
@@ -57,6 +49,7 @@ class TicTacToe {
 
     this.makeMove = this.makeMove.bind(this);
     this.makeComputerMove = this.makeComputerMove.bind(this);
+    this.computerAutoPlay = this.computerAutoPlay.bind(this);
     this.generateMoves = this.generateMoves.bind(this);
     this.minimax = this.minimax.bind(this);
     this.checkWinner = this.checkWinner.bind(this);
@@ -66,37 +59,9 @@ class TicTacToe {
     this.getBoardCharacterArray = this.getBoardCharacterArray.bind(this);
 
     if (this.player === P2) {
-      console.log('------------------');
-      const i = Math.round(getRandomArbitrary(0, this.grid - 1));
-      const j = Math.round(getRandomArbitrary(0, this.grid - 1));
-      console.log('player x is computer');
-      const moveres = this.makeMove(i, j);
-      console.log('made move = ', moveres);
-      console.log('i, j = ', i, j);
-      this.display();
-    } else if (this.player === NA) {
-      console.log('**** both computers ****');
-      const i = Math.round(getRandomArbitrary(0, this.grid - 1));
-      const j = Math.round(getRandomArbitrary(0, this.grid - 1));
-      const moveres = this.makeMove(i, j);
-
-      let compDepth = 10;
-      if (this.grid === 4) {
-        compDepth = 5;
-      } else if (this.grid === 5) {
-        compDepth = 4;
-      } else if (this.grid >= 6) {
-        compDepth = 3;
-      }
-
-      let cnt = 0;
-      while (!this.isFinish()) {
-        console.log('computer move :', cnt++);
-        this.makeComputerMove(compDepth);
-        if (typeof cb === 'function') {
-          cb();
-        }
-      }
+      const i = randomInteger(0, this.grid - 1);
+      const j = randomInteger(0, this.grid - 1);
+      this.makeMove(i, j);
     }
   }
 
@@ -115,11 +80,6 @@ class TicTacToe {
       this.currentPlayer = this.currentPlayer === P1 ? P2 : P1;
       this.turns--;
       return MOVE_SUCCESS;
-    } else {
-      console.log('##### makeMove: failed #####');
-      console.log('i = ', i);
-      console.log('j = ', j);
-      console.log('this.board[i * this.grid + j] = ', this.board[i * this.grid + j]);
     }
 
     return MOVE_INVALID;
@@ -130,9 +90,25 @@ class TicTacToe {
    * @returns `{ score: number, idx_i: null | number, idx_j: null | number }`
    */
   makeComputerMove(depth) {
+    const computer = this.currentPlayer;
     const bestMove = this.minimax(this.currentPlayer, depth);
     this.makeMove(bestMove.idx_i, bestMove.idx_j);
+    bestMove.computerPiece = computer;
     return bestMove;
+  }
+
+  * computerAutoPlay(depth) {
+    const i = randomInteger(0, this.grid - 1);
+    const j = randomInteger(0, this.grid - 1);
+    const computerPiece = this.currentPlayer; 
+    this.makeMove(i, j);
+
+    yield {idx_i: i, idx_j: j, computerPiece: computerPiece};
+
+    let cnt = 0;
+    while (!this.isFinish()) {
+      yield this.makeComputerMove(depth);
+    }
   }
 
   /**
@@ -218,7 +194,6 @@ class TicTacToe {
    */
   checkWinner() {
     // check row -
-    console.lo;
     for (let i = 0; i < this.grid; ++i) {
       let samePiece = 1;
       for (let j = 0; j < this.grid - 1; ++j) {

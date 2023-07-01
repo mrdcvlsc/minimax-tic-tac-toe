@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/mrdcvlsc/minimax-tic-tac-toe/compare/v1.0.0...v1.0.1) (2023-07-01)
+
+
+### Bug Fixes
+
+* fixed depth input possibly going undefined in the web app ([95f6103](https://github.com/mrdcvlsc/minimax-tic-tac-toe/commit/95f61036d881bf09b94a99fa9e7922356ca1275b))
+
 # 1.0.0 (2023-07-01)
 
 ### Features

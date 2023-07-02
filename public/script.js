@@ -1,194 +1,196 @@
 // =================== html initialization ===================
+
 const PIECE = [' ', '&#10005;', '&#9711;'];
+const INVALID = 0, DRAW = 0, COMPUTERS = '0';
 
-const htmlBoard = document.querySelector('.board');
-const htmlGridSelect = document.querySelector('.grid-size');
-const htmlWinCountSelect = document.querySelector('.win-piece-count');
-const htmlPlayerSelect = document.querySelector('.player-select');
-const htmlNewGameBtn = document.querySelector('.new-game');
-const htmlMessage = document.querySelector('.message');
-const htmlDepthInput = document.querySelector('.depth-value');
-let htmlBoardCells = [...document.querySelectorAll('#board > .cell')];
+const BOARD = document.querySelector('.board');
+const SELECT_GRID = document.querySelector('.grid-size');
+const SELECT_WIN_COUNT = document.querySelector('.win-piece-count');
+const SELECT_PLAYER = document.querySelector('.player-select');
+const BUTTON_NEW_GAME = document.querySelector('.new-game');
+const DISPLAY_MSG = document.querySelector('.message');
+const INPUT_DEPTH = document.querySelector('.depth-value');
 
-// =================== tic-tac-toe minimax integration ===================
+let squares;
+
+// =================== minimax tic-tac-toe ===================
+
 import { TicTacToe } from './TicTacToe.js';
+let Game = null;
 
-let game;
+// =================== game initialization ===================
+
 setNewGame('Click a square');
+generateCells();
 
-const INVALID = 0;
+// =================== events ===================
 
-function announceResult(debugMessages) {
-  console.debug(debugMessages);
-  if (game.winner === 0) {
-    htmlMessage.innerText = 'Game ended in a draw.';
-    htmlMessage.style.color = 'yellow';
-    htmlMessage.style.fontSize = '1.15em';
-    htmlMessage.style.fontWeight = 'bolder';
-  } else {
-    htmlMessage.innerHTML = `Player ${PIECE[game.winner]} won.`;
-    htmlMessage.style.color = 'lightgreen';
-    htmlMessage.style.fontSize = '1.15em';
-    htmlMessage.style.fontWeight = 'bolder';
-  }
-}
+SELECT_PLAYER.addEventListener('change', () => {
+  const selectedPlayer = Number(SELECT_PLAYER.value);
 
-function makeMove(i, j, moveComputer = true) {
-  if (!game.isFinish()) {
-    htmlMessage.innerText = '';
-    const currentPlayer = game.currentPlayer;
-    const moveResult = game.makeMove(i, j);
-
-    if (moveResult === INVALID) {
-      htmlMessage.innerText = 'INVALID MOVE!';
-      htmlMessage.style.color = 'red';
-      htmlMessage.style.fontSize = '1.5em';
-      htmlMessage.style.fontWeight = 'bolder';
-      return;
-    }
-
-    htmlBoardCells[i * game.grid + j].innerHTML = PIECE[currentPlayer];
-
-    if (moveComputer) {
-      if (!game.isFinish()) {
-        const computerPlayer = game.currentPlayer;
-        const computerMove = game.minimax(computerPlayer, htmlDepthInput.value);
-        htmlBoardCells[computerMove.idx_i * game.grid + computerMove.idx_j].innerHTML = PIECE[computerPlayer];
-
-        game.makeMove(computerMove.idx_i, computerMove.idx_j);
-
-        if (game.isFinish()) {
-          announceResult('last else');
-        }
-      } else {
-        announceResult('secondary else');
-      }
-    }
-  } else {
-    announceResult('main else');
-  }
-
-  game.display();
-}
-
-htmlPlayerSelect.addEventListener('change', () => {
-  const selectedPlayer = Number(htmlPlayerSelect.value);
   if (selectedPlayer === 1) {
     setNewGame('New game, both computer playing');
   } else if (selectedPlayer === 2) {
-    setNewGame('New game, you are playing as X');
+    setNewGame('New game, you\'re playing as X');
   } else {
-    setNewGame('New game, you are playing as O');
+    setNewGame('New game, you\'re playing as O');
 
-    const moves = game.computerAutoPlay(
-      typeof htmlDepthInput.value === 'number' || typeof htmlDepthInput.value === 'string'
-        ? Number(htmlDepthInput.value)
-        : 1
+    const moves = Game.computerAutoPlay(
+      (INPUT_DEPTH.value) ? Number(INPUT_DEPTH.value) : 0
     );
 
     for (let move of moves) {
       // works but instantanously, not as intended,
       // fix this later and make it look real time updates.
-      htmlBoardCells[move.idx_i * game.grid + move.idx_j].innerHTML = PIECE[move.computerPiece];
+      squares[move.idx_i * Game.grid + move.idx_j].innerHTML = PIECE[move.computerPiece];
     }
 
     announceResult();
   }
 });
 
-htmlWinCountSelect.addEventListener('change', () => {
-  setNewGame('New game, with new piece win count');
-});
-
-htmlWinCountSelect.addEventListener('change', () => {
+SELECT_WIN_COUNT.addEventListener('change', () => {
   setNewGame('New game, with new piece win count');
 });
 
 // grid size selector
-htmlGridSelect.addEventListener('change', () => {
-  const newGridSize = Number(htmlGridSelect.value);
+SELECT_GRID.addEventListener('change', () => {
+  const newGridSize = Number(SELECT_GRID.value);
+
   if (newGridSize === 3) {
-    htmlDepthInput.value = 10;
+    INPUT_DEPTH.value = 10;
   } else if (newGridSize === 4) {
-    htmlDepthInput.value = 5;
+    INPUT_DEPTH.value = 5;
   } else if (newGridSize === 5) {
-    htmlDepthInput.value = 4;
+    INPUT_DEPTH.value = 4;
   } else if (newGridSize >= 6) {
-    htmlDepthInput.value = 3;
+    INPUT_DEPTH.value = 3;
   }
 
-  htmlWinCountSelect.innerHTML = '';
+  SELECT_WIN_COUNT.innerHTML = '';
   for (let i = newGridSize; i > 1; --i) {
     const newOptions = document.createElement('option');
     newOptions.label = i;
     newOptions.value = i;
-    htmlWinCountSelect.appendChild(newOptions);
+    SELECT_WIN_COUNT.appendChild(newOptions);
   }
 
   setNewGame(
-    'The depth was changed for optimal calculation speed. ' +
-      'You can change the depth on your own, but keep in mind ' +
-      'a higher "depth and grid" values will cause the computer to take ' +
-      'more time to move.'
+    'The depth has been optimized in relation to the grid value to ' +
+    'improve calculation speed. You can easily adjust the depth setting, ' +
+    'but keep in mind that higher values for "depth and grid" will ' +
+    'increase the move time of the computer and will use more resources.'
   );
 });
 
-// generate squares in the board
-function generateCells() {
-  htmlBoard.innerHTML = '';
-  for (let i = 0; i < game.grid; ++i) {
-    for (let j = 0; j < game.grid; ++j) {
-      const htmlSpan = document.createElement('span');
-      htmlSpan.addEventListener('click', () => makeMove(i, j));
-      htmlSpan.className = 'cell';
-
-      if (game.board[i * game.grid + j] !== '') {
-        htmlSpan.innerHTML = PIECE[game.board[i * game.grid + j]];
-      } else {
-        htmlSpan.innerHTML = '&#8203;';
-      }
-      htmlBoard.appendChild(htmlSpan);
-    }
-  }
-
-  htmlBoard.style.gridTemplateColumns = `repeat(${game.grid}, 1fr)`;
-  htmlBoard.style.gridTemplateRows = `repeat(${game.grid}, 1fr)`;
-
-  htmlBoardCells = [...document.querySelectorAll('#board > .cell')];
-}
-
-generateCells();
-
-htmlNewGameBtn.addEventListener('click', () => {
+BUTTON_NEW_GAME.addEventListener('click', () => {
   setNewGame();
 });
 
-function setNewGame(msg = '') {
-  htmlMessage.innerText = msg;
-  htmlMessage.style.fontSize = '0.9em';
-  htmlMessage.style.color = 'white';
+// =================== functions ===================
 
-  game = new TicTacToe({
-    gridLength: Number(htmlGridSelect.value),
-    winCount: Number(htmlWinCountSelect.value),
-    player: Number(htmlPlayerSelect.value),
+function setNewGame(msg = '') {
+  Game = new TicTacToe({
+    gridLength: Number(SELECT_GRID.value),
+    winCount: Number(SELECT_WIN_COUNT.value),
+    player: Number(SELECT_PLAYER.value),
   });
 
   generateCells();
 
-  if (htmlPlayerSelect.value === '0') {
-    const moves = game.computerAutoPlay(
-      typeof htmlDepthInput.value === 'number' || typeof htmlDepthInput.value === 'string'
-        ? Number(htmlDepthInput.value)
-        : 1
+  DISPLAY_MSG.innerText = msg;
+  DISPLAY_MSG.style.fontSize = '0.9em';
+  DISPLAY_MSG.style.color = 'white';
+
+  if (SELECT_PLAYER.value === COMPUTERS) {
+    const computerMoves = Game.computerAutoPlay(
+      (INPUT_DEPTH.value) ? Number(INPUT_DEPTH.value) : 0
     );
 
-    for (let move of moves) {
+    for (let move of computerMoves) {
       // works but instantanously, not as intended,
       // fix this later and make it look real time updates.
-      htmlBoardCells[move.idx_i * game.grid + move.idx_j].innerHTML = PIECE[move.computerPiece];
+      squares[move.idx_i * Game.grid + move.idx_j].innerHTML = PIECE[move.computerPiece];
     }
 
     announceResult();
+  }
+}
+
+// generate squares in the board
+function generateCells() {
+  BOARD.innerHTML = '';
+  BOARD.style.gridTemplateColumns = `repeat(${Game.grid}, 1fr)`;
+  BOARD.style.gridTemplateRows = `repeat(${Game.grid}, 1fr)`;
+
+  for (let i = 0; i < Game.grid; ++i) {
+    for (let j = 0; j < Game.grid; ++j) {
+      const square = document.createElement('span');
+      square.className = 'cell';
+      square.style.animationDelay = `${(i * 0.125) + (j * 0.125) + 0.125}s`;
+
+      square.addEventListener('click', () => makeMove(i, j));
+
+      if (Game.board[i * Game.grid + j] !== '') {
+        square.innerHTML = PIECE[Game.board[i * Game.grid + j]];
+      } else {
+        square.innerHTML = '&#8203;';
+      }
+
+      BOARD.appendChild(square);
+    }
+  }
+
+  squares = [...document.querySelectorAll('#board > .cell')];
+}
+
+function makeMove(i, j, moveComputer = true) {
+  if (!Game.isFinish()) {
+    DISPLAY_MSG.innerText = '';
+    const currentPlayer = Game.currentPlayer;
+    const move = Game.makeMove(i, j);
+
+    if (move === INVALID) {
+      DISPLAY_MSG.innerText = 'INVALID MOVE!';
+      DISPLAY_MSG.style.color = 'red';
+      DISPLAY_MSG.style.fontSize = '1.5em';
+      DISPLAY_MSG.style.fontWeight = 'bolder';
+      return;
+    }
+
+    squares[i * Game.grid + j].innerHTML = PIECE[currentPlayer];
+
+    if (moveComputer) {
+      if (!Game.isFinish()) {
+        const computer = Game.currentPlayer;
+        const optimalMove = Game.minimax(computer, INPUT_DEPTH.value);
+
+        squares[optimalMove.idx_i * Game.grid + optimalMove.idx_j].innerHTML = PIECE[computer];
+        Game.makeMove(optimalMove.idx_i, optimalMove.idx_j);
+
+        if (Game.isFinish()) {
+          announceResult();
+        }
+      } else {
+        announceResult();
+      }
+    }
+  } else {
+    announceResult();
+  }
+}
+
+function announceResult(debugMessages) {
+  console.debug(debugMessages);
+  if (Game.winner === DRAW) {
+    DISPLAY_MSG.innerText = 'Game ended in a draw.';
+    DISPLAY_MSG.style.color = 'yellow';
+    DISPLAY_MSG.style.fontSize = '1.15em';
+    DISPLAY_MSG.style.fontWeight = 'bolder';
+  } else {
+    DISPLAY_MSG.innerHTML = `Player ${PIECE[Game.winner]} won.`;
+    DISPLAY_MSG.style.color = 'lightgreen';
+    DISPLAY_MSG.style.fontSize = '1.15em';
+    DISPLAY_MSG.style.fontWeight = 'bolder';
   }
 }

@@ -1,7 +1,9 @@
 // =================== html initialization ===================
 
 const PIECE = [' ', '&#10005;', '&#9711;'];
-const INVALID = 0, DRAW = 0, COMPUTERS = '0';
+const INVALID = 0,
+  DRAW = 0,
+  COMPUTERS = '0';
 
 const BOARD = document.querySelector('.board');
 const SELECT_GRID = document.querySelector('.grid-size');
@@ -31,13 +33,11 @@ SELECT_PLAYER.addEventListener('change', () => {
   if (selectedPlayer === 1) {
     setNewGame('New game, both computer playing');
   } else if (selectedPlayer === 2) {
-    setNewGame('New game, you\'re playing as X');
+    setNewGame("New game, you're playing as X");
   } else {
-    setNewGame('New game, you\'re playing as O');
+    setNewGame("New game, you're playing as O");
 
-    const moves = Game.computerAutoPlay(
-      (INPUT_DEPTH.value) ? Number(INPUT_DEPTH.value) : 0
-    );
+    const moves = Game.computerAutoPlay(INPUT_DEPTH.value ? Number(INPUT_DEPTH.value) : 0);
 
     for (let move of moves) {
       // works but instantanously, not as intended,
@@ -77,9 +77,9 @@ SELECT_GRID.addEventListener('change', () => {
 
   setNewGame(
     'The depth has been optimized in relation to the grid value to ' +
-    'improve calculation speed. You can easily adjust the depth setting, ' +
-    'but keep in mind that higher values for "depth and grid" will ' +
-    'increase the move time of the computer and will use more resources.'
+      'improve calculation speed. You can easily adjust the depth setting, ' +
+      'but keep in mind that higher values for "depth and grid" will ' +
+      'increase the move time of the computer and will use more resources.'
   );
 });
 
@@ -103,9 +103,7 @@ function setNewGame(msg = '') {
   DISPLAY_MSG.style.color = 'white';
 
   if (SELECT_PLAYER.value === COMPUTERS) {
-    const computerMoves = Game.computerAutoPlay(
-      (INPUT_DEPTH.value) ? Number(INPUT_DEPTH.value) : 0
-    );
+    const computerMoves = Game.computerAutoPlay(INPUT_DEPTH.value ? Number(INPUT_DEPTH.value) : 0);
 
     for (let move of computerMoves) {
       // works but instantanously, not as intended,
@@ -127,7 +125,7 @@ function generateCells() {
     for (let j = 0; j < Game.grid; ++j) {
       const square = document.createElement('span');
       square.className = 'cell';
-      square.style.animationDelay = `${(i * 0.125) + (j * 0.125) + 0.125}s`;
+      square.style.animationDelay = `${i * 0.125 + j * 0.125 + 0.125}s`;
 
       square.addEventListener('click', () => makeMove(i, j));
 

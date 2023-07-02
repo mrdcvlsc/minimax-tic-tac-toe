@@ -6,8 +6,12 @@
 }
 
 @keyframes animate-fade {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .header {
@@ -48,7 +52,8 @@ body {
   animation-fill-mode: backwards;
 }
 
-.new-game, .message {
+.new-game,
+.message {
   animation-duration: 2s;
   animation-delay: 2s;
   animation-name: animate-fade;
@@ -191,7 +196,6 @@ a {
     width: 100%;
   }
 }
-
 
 select {
   font-size: 1em;

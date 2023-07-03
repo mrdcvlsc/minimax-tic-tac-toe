@@ -34,7 +34,7 @@ function showlocalNetAddress(PORT) {
     networkInterfaces?.['Wi-Fi']?.[1]?.address ||
     networkInterfaces?.Ethernet?.[1]?.address ||
     null;
-  
+
   if (localNetAddress) {
     console.log(`network : ${localNetAddress}:${PORT}/`);
   } else {
@@ -42,11 +42,11 @@ function showlocalNetAddress(PORT) {
   }
 }
 
-async function start () {
+async function start() {
   try {
     await app.listen({ port: PORT, host: '::' });
   } catch (err) {
     app.log.error(err);
     process.exit(1);
   }
-};
+}

@@ -24,4 +24,3 @@ node dev
 ```
 
 Then open `localhost:3000` in your browser.
-

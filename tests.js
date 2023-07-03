@@ -6,53 +6,15 @@ let failedTests = 0;
 
 const fbfWinners = [NA, P1, P2, P1, P2, P1, P2, P1, P2];
 const fbfBoardStates = [
-  [
-    P2, NA, NA, P2,
-    NA, P1, NA, NA,
-    NA, NA, P2, NA,
-    P1, NA, NA, P1
-  ],
-  [
-    NA, NA, P1, NA,
-    NA, P1, NA, NA,
-    P1, NA, NA, NA,
-    NA, NA, NA, NA
-  ],[
-    NA, NA, NA, NA,
-    NA, NA, NA, P2,
-    NA, NA, P2, NA,
-    NA, P2, NA, NA
-  ],[
-    NA, P1, NA, NA,
-    NA, NA, P1, NA,
-    NA, NA, NA, P1,
-    NA, NA, NA, NA
-  ],[
-    NA, NA, NA, NA,
-    P2, NA, NA, NA,
-    NA, P2, NA, NA,
-    NA, NA, P2, NA
-  ],[
-    NA, NA, NA, NA,
-    NA, NA, P1, NA,
-    NA, P1, NA, NA,
-    P1, NA, NA, NA
-  ],[
-    NA, NA, NA, NA,
-    NA, P2, NA, NA,
-    NA, NA, P2, NA,
-    NA, NA, NA, P2
-  ],[
-    NA, NA, NA, P1,
-    NA, NA, P1, NA,
-    NA, P1, NA, NA,
-    NA, NA, NA, NA
-  ],[
-    P2, NA, NA, NA,
-    NA, P2, NA, NA,
-    NA, NA, P2, NA,
-    NA, NA, NA, NA
-  ],
+  [P2, NA, NA, P2, NA, P1, NA, NA, NA, NA, P2, NA, P1, NA, NA, P1],
+  [NA, NA, P1, NA, NA, P1, NA, NA, P1, NA, NA, NA, NA, NA, NA, NA],
+  [NA, NA, NA, NA, NA, NA, NA, P2, NA, NA, P2, NA, NA, P2, NA, NA],
+  [NA, P1, NA, NA, NA, NA, P1, NA, NA, NA, NA, P1, NA, NA, NA, NA],
+  [NA, NA, NA, NA, P2, NA, NA, NA, NA, P2, NA, NA, NA, NA, P2, NA],
+  [NA, NA, NA, NA, NA, NA, P1, NA, NA, P1, NA, NA, P1, NA, NA, NA],
+  [NA, NA, NA, NA, NA, P2, NA, NA, NA, NA, P2, NA, NA, NA, NA, P2],
+  [NA, NA, NA, P1, NA, NA, P1, NA, NA, P1, NA, NA, NA, NA, NA, NA],
+  [P2, NA, NA, NA, NA, P2, NA, NA, NA, NA, P2, NA, NA, NA, NA, NA],
 ];
 
 console.log('============ 4x4 - piece 3 win state tests ============ ');

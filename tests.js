@@ -1,4 +1,4 @@
-import { TicTacToe, NA, P1, P2 } from './public/TicTacToe.js';
+import { TicTacToe, NA, P1, P2 } from './lib/TicTacToe.js';
 
 const t = new TicTacToe({ gridLength: 3 });
 let failedTests = 0;
@@ -26,7 +26,7 @@ const winBoardStates = [
   [P2, P1, P2, P1, P2, NA, NA, P1, NA], // no winner
 ];
 
-failedTests += t.testCheckWinner(winBoardStates, winners);
+failedTests += t.testEvaluation(winBoardStates, winners);
 
 const correctMoves = [
   [

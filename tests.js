@@ -1,7 +1,62 @@
 import { TicTacToe, NA, P1, P2 } from './lib/TicTacToe.js';
 
 const t = new TicTacToe({ gridLength: 3 });
+const fbf = new TicTacToe({ gridLength: 4, winCount: 3 });
 let failedTests = 0;
+
+const fbfWinners = [NA, P1, P2, P1, P2, P1, P2, P1, P2];
+const fbfBoardStates = [
+  [
+    P2, NA, NA, P2,
+    NA, P1, NA, NA,
+    NA, NA, P2, NA,
+    P1, NA, NA, P1
+  ],
+  [
+    NA, NA, P1, NA,
+    NA, P1, NA, NA,
+    P1, NA, NA, NA,
+    NA, NA, NA, NA
+  ],[
+    NA, NA, NA, NA,
+    NA, NA, NA, P2,
+    NA, NA, P2, NA,
+    NA, P2, NA, NA
+  ],[
+    NA, P1, NA, NA,
+    NA, NA, P1, NA,
+    NA, NA, NA, P1,
+    NA, NA, NA, NA
+  ],[
+    NA, NA, NA, NA,
+    P2, NA, NA, NA,
+    NA, P2, NA, NA,
+    NA, NA, P2, NA
+  ],[
+    NA, NA, NA, NA,
+    NA, NA, P1, NA,
+    NA, P1, NA, NA,
+    P1, NA, NA, NA
+  ],[
+    NA, NA, NA, NA,
+    NA, P2, NA, NA,
+    NA, NA, P2, NA,
+    NA, NA, NA, P2
+  ],[
+    NA, NA, NA, P1,
+    NA, NA, P1, NA,
+    NA, P1, NA, NA,
+    NA, NA, NA, NA
+  ],[
+    P2, NA, NA, NA,
+    NA, P2, NA, NA,
+    NA, NA, P2, NA,
+    NA, NA, NA, NA
+  ],
+];
+
+console.log('============ 4x4 - piece 3 win state tests ============ ');
+failedTests += fbf.testEvaluation(fbfBoardStates, fbfWinners);
 
 const winners = [NA, P1, P1, P1, P1, P1, P1, P2, P2, P2, P2, P2, P2, P1, P1, P2, P2, NA];
 
@@ -26,6 +81,7 @@ const winBoardStates = [
   [P2, P1, P2, P1, P2, NA, NA, P1, NA], // no winner
 ];
 
+console.log('============ 3x3 win state tests ============ ');
 failedTests += t.testEvaluation(winBoardStates, winners);
 
 const correctMoves = [
@@ -86,6 +142,7 @@ const moveBoardStates = [
   [P1, NA, P1, P2, NA, P2, P1, P2, P1],
 ];
 
+console.log('============ 3x3 move generation test ============ ');
 failedTests += t.testGenerateMoves(moveBoardStates, correctMoves);
 
 if (failedTests > 0) {

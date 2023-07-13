@@ -1,9 +1,8 @@
 # [1.1.0](https://github.com/mrdcvlsc/minimax-tic-tac-toe/compare/v1.0.1...v1.1.0) (2023-07-03)
 
-
 ### Features
 
-* detect other diagonal wins for lower win piece counts ([9f7b8c9](https://github.com/mrdcvlsc/minimax-tic-tac-toe/commit/9f7b8c93b2c6686314b7b45249d0f4748b8f3143))
+- detect other diagonal wins for lower win piece counts ([9f7b8c9](https://github.com/mrdcvlsc/minimax-tic-tac-toe/commit/9f7b8c93b2c6686314b7b45249d0f4748b8f3143))
 
 ## [1.0.1](https://github.com/mrdcvlsc/minimax-tic-tac-toe/compare/v1.0.0...v1.0.1) (2023-07-01)
 

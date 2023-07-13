@@ -48,7 +48,7 @@ graph TB
 graph LR
   subgraph "depth = 3"
     P1["Maximizing (X)"]
-  
+
     A["X #nbsp; #nbsp; #nbsp; #nbsp; X\n #nbsp; #nbsp; #nbsp; X #nbsp; O\nO #nbsp; #nbsp; #nbsp; #nbsp; O"]
 
   end

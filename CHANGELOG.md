@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/mrdcvlsc/minimax-tic-tac-toe/compare/v1.0.1...v1.1.0) (2023-07-13)
+
+
+### Features
+
+* detect other diagonal wins for lower win piece counts ([9f7b8c9](https://github.com/mrdcvlsc/minimax-tic-tac-toe/commit/9f7b8c93b2c6686314b7b45249d0f4748b8f3143))
+
+
+### Performance Improvements
+
+* micro optimized the evaluate function ([c40aace](https://github.com/mrdcvlsc/minimax-tic-tac-toe/commit/c40aace9ec18120af1348133d1383b43c83eaf93))
+
 # [1.1.0](https://github.com/mrdcvlsc/minimax-tic-tac-toe/compare/v1.0.1...v1.1.0) (2023-07-03)
 
 ### Features
